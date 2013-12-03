@@ -133,6 +133,7 @@
     <Compile Include="Resolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Claims.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
