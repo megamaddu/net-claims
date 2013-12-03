@@ -107,12 +107,15 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Crypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Crypto, Version=1.0.5085.23995, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Crypto.1.0.0\lib\net45\Crypto.dll</HintPath>
+      <HintPath>..\..\packages\Crypto.1.0.1\lib\net45\Crypto.dll</HintPath>
     </Reference>
     <Reference Include="net-key-manager">
       <HintPath>..\..\packages\net-key-manager.1.0.0\lib\net45\net-key-manager.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
