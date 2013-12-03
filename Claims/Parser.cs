@@ -4,7 +4,8 @@
 	using System.Linq;
 	using System.Collections.Generic;
 	using System.Diagnostics.Contracts;
-	using Claims.Models;
+	using Models;
+	using System.Text;
 
 	internal static class Parser
 	{
@@ -34,17 +35,17 @@
 			public const int DetailsRuleIndex = 1;
 		}
 
-		internal static Claims Parse(string ticket, object options)
+		internal static Claims Parse(string ticket, Func<string, string, bool> verifier, ClaimsAuthority claimsAuthority)
 		{
-			return TicketToJson(ticket, options);
+			return TicketToJson(ticket, verifier, claimsAuthority);
 		}
 
-		internal static Claims From(string json, object Options)
+		internal static Claims From(string json, Func<string, string, bool> verifier, ClaimsAuthority claimsAuthority)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		private static Claims TicketToJson(string ticket, object options)
+		private static Claims TicketToJson(string ticket, Func<string, string, bool> verifier, ClaimsAuthority claimsAuthority)
 		{
 			Contract.Assert(Conf.Preamble.Equals(ticket.Substring(0, Conf.Preamble.Length)), "preamble missing or corrupt");
 			var versionAndClaimAndImpersonator = ticket.Substring(Conf.Preamble.Length).Split(Conf.VersionAndClaimAndImpersonatorSeperator);
@@ -107,7 +108,7 @@
 						{
 							var claimsetDetails = parsedDetails[claimsetId];
 							var encodedValue = claimsetDetails[claimId];
-							claimOptionsValue = Convert.ToString(Convert.FromBase64String(encodedValue));
+							claimOptionsValue = Encoding.UTF8.GetString(Convert.FromBase64String(encodedValue));
 						}
 						var claimOptionsKind = !string.IsNullOrWhiteSpace(claimOptionsValue) ? ClaimKind.Identity : ClaimKind.Unknown;
 						claims[claimId] = new Claim(id: claimId, kind: claimOptionsKind, value: claimOptionsValue);
@@ -116,7 +117,7 @@
 				}
 				claimsets[claimsetId] = new Claimset(id: claimsetId, claims: claims, signature: signature);
 			}
-			var result = new Claims(claimsets, Convert.ToDateTime(expiration), signature, encoded, ticket, (x, y) => false, new ClaimsAuthority());
+			var result = new Claims(claimsets, Convert.ToDateTime(expiration), signature, encoded, ticket, verifier, claimsAuthority);
 			return result;
 		}
 	}

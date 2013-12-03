@@ -55,10 +55,10 @@
 				csid = parts[0];
 				cid = parts[1];
 			}
-			int pcsid;
-			Contract.Assert(!int.TryParse(csid, System.Globalization.NumberStyles.HexNumber, null, out pcsid), "claims error -- csid must be a valid hex number");
-			int pcid;
-			Contract.Assert(!int.TryParse(cid, System.Globalization.NumberStyles.HexNumber, null, out pcid), "claims error -- cid must be a valid hex number");
+			UInt32 pcsid;
+			Contract.Assert(UInt32.TryParse(csid, System.Globalization.NumberStyles.HexNumber, null, out pcsid), "claims error -- csid must be a valid hex number");
+			UInt64 pcid;
+			Contract.Assert(UInt64.TryParse(cid, System.Globalization.NumberStyles.HexNumber, null, out pcid), "claims error -- cid must be a valid hex number");
 			dynamic res = new ExpandoObject();
 			res.csid = pcsid.ToString("x");
 			res.cid = pcid.ToString("x");
@@ -69,21 +69,21 @@
 		{
 			var args = Sanitize(csid, cid);
 			Claimset claimset;
-			if (!this.Claimsets.TryGetValue(csid, out claimset))
+			if (!this.Claimsets.TryGetValue(args.csid, out claimset) || claimset.Signature != this.Signature)
 			{
 				return false;
 			}
-			var pcid = int.Parse(args.cid, System.Globalization.NumberStyles.HexNumber);
-			var b = 1;
+			var pcid = UInt32.Parse(args.cid, System.Globalization.NumberStyles.HexNumber);
+			UInt32 b = 1;
 			while (b <= pcid)
 			{
 				if (b == (b & pcid) && claimset.Claims.ContainsKey(b.ToString("x")))
 				{
-					return false;
+					return true;
 				}
 				b *= 2;
 			}
-			return true;
+			return false;
 		}
 
 		public async Task<string> Get(string csid, string cid = null, bool resolve = true)
