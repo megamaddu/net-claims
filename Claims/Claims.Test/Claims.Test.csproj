@@ -111,8 +111,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Crypto.1.0.1\lib\net45\Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="net-key-manager">
-      <HintPath>..\..\packages\net-key-manager.1.0.0\lib\net45\net-key-manager.dll</HintPath>
+    <Reference Include="KeyManager">
+      <HintPath>..\..\packages\KeyManager.1.0.1\lib\net45\KeyManager.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
